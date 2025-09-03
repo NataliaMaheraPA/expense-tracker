@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from "next/cache"
-import { createExpense } from "@/server/expenses"
+import { createExpense, deleteExpense } from "@/server/expenses"
 import { expenseSchema } from "@/types/schema"
 
 type ActionState = { errors?: Record<string, string[]>; success?: boolean; submittedAt?: number }
@@ -28,6 +28,13 @@ export async function submitExpense(values: unknown): Promise<{ success?: boolea
     return { errors: flattened.fieldErrors }
   }
   await createExpense(parsed.data)
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function removeExpense(id: string): Promise<{ success?: boolean; error?: string }> {
+  if (!id) return { error: 'Missing id' }
+  await deleteExpense(id)
   revalidatePath('/')
   return { success: true }
 }

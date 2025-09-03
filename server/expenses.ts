@@ -14,3 +14,7 @@ export async function createExpense(data: { title: string, amount: number }): Pr
   })
   return newExpense
 }
+
+export async function deleteExpense(id: string): Promise<void> {
+  await prisma.expense.delete({ where: { id } })
+}

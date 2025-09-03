@@ -1,6 +1,6 @@
 import { getExpenses } from "@/server/expenses"
-import { formatCurrency } from "@/lib/utils"
 import ExpenseForm from "@/components/expense-form"
+import ExpenseList from "@/components/expense-list"
 
 export default async function Home() {
   const expenses = await getExpenses()
@@ -14,14 +14,9 @@ export default async function Home() {
         <div className='mt-8 flex items-center justify-between gap-10'>
           <div className='grow'>
             <h3 className='text-xl font-bold'>Items</h3>
-            <ul className='mt-4 flex flex-col gap-1'>
-              {expenses.map(expense => (
-                <li key={expense.id} className='flex justify-between'>
-                  <span>{expense.title}</span>
-                  <span>{formatCurrency(expense.amount)}</span>
-                </li>
-              ))}
-            </ul>
+            <div className='mt-4'>
+              <ExpenseList items={expenses} />
+            </div>
           </div>
 
           <ExpenseForm />
