@@ -1,4 +1,4 @@
-import { getExpenses } from "@/lib/expenses"
+import { getExpenses } from "@/server/expenses"
 import { formatCurrency } from "@/lib/utils"
 import ExpenseForm from "@/components/expense-form"
 

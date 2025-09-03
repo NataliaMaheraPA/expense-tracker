@@ -1,5 +1,7 @@
+import "server-only"
+
 import { Expense } from "@prisma/client"
-import prisma from "./prisma"
+import prisma from "@/lib/prisma"
 
 export async function getExpenses(): Promise<Expense[]> {
   const expenses = await prisma.expense.findMany()
