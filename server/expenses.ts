@@ -18,3 +18,15 @@ export async function createExpense(data: { title: string, amount: number }): Pr
 export async function deleteExpense(id: string): Promise<void> {
   await prisma.expense.delete({ where: { id } })
 }
+
+export async function getMonthlyTotals(): Promise<Array<{ month: string; total: number }>> {
+  // Aggregate by month (YYYY-MM) on the DB side for performance
+  const rows = await prisma.$queryRaw<Array<{ month: string; total: number }>>`
+    SELECT to_char(date_trunc('month', "createdAt"), 'YYYY-MM') AS month,
+           SUM("amount")::int AS total
+    FROM "Expense"
+    GROUP BY 1
+    ORDER BY 1
+  `
+  return rows
+}

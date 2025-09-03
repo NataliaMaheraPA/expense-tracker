@@ -1,9 +1,10 @@
-import { getExpenses } from "@/server/expenses"
+import { getExpenses, getMonthlyTotals } from "@/server/expenses"
 import ExpenseForm from "@/components/expense-form"
 import ExpenseList from "@/components/expense-list"
+import MonthlyLineChart from "@/components/monthly-line-chart"
 
 export default async function Home() {
-  const expenses = await getExpenses()
+  const [expenses, monthly] = await Promise.all([getExpenses(), getMonthlyTotals()])
 
   return (
     <section className='py-24'>
@@ -20,6 +21,13 @@ export default async function Home() {
           </div>
 
           <ExpenseForm />
+        </div>
+
+        <div className='mt-12'>
+          <h3 className='text-xl font-bold'>Monthly totals</h3>
+          <div className='mt-4'>
+            <MonthlyLineChart data={monthly} />
+          </div>
         </div>
       </div>
     </section>
