@@ -50,7 +50,7 @@ export function FormInput<TFieldValues extends Record<string, any>>({
                 id={inputId}
                 type={type}
                 placeholder={placeholder}
-                className={inputClassName}
+                className={inputClassName + ' rounded-md'}
                 aria-invalid={isInvalid}
                 aria-describedby={isInvalid ? errorId : undefined}
                 onChange={(e) => {

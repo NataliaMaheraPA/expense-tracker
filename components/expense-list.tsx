@@ -3,7 +3,7 @@
 import { useOptimistic, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { Trash2 } from 'lucide-react'
+import { Trash2, Pencil } from 'lucide-react'
 import { removeExpense } from '@/app/actions/expenses'
 import { formatCurrency } from '@/lib/utils'
 import type { Expense } from '@prisma/client'
@@ -36,20 +36,28 @@ export default function ExpenseList({ items }: Props) {
     })
   }
 
+  function onEdit(item: Expense) {
+    const event = new CustomEvent('open-expense-edit', { detail: item })
+    window.dispatchEvent(event)
+  }
+
   return (
     <div className='flex flex-col gap-3'>
-      <div className='flex items-center justify-between text-sm text-zinc-600'>
+      <div className='flex flex-col gap-1 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between'>
         <span>Count: {optimistic.length}</span>
         <span>Total: {formatCurrency(total)}</span>
       </div>
       <ul className='divide-y rounded-md border'>
         {optimistic.map(item => (
-          <li key={item.id} className='flex items-center justify-between gap-3 p-3'>
-            <div className='flex flex-col'>
-              <span className='font-medium'>{item.title}</span>
+          <li key={item.id} className='grid grid-cols-1 items-center gap-2 p-3 sm:grid-cols-[1fr_auto_auto] sm:gap-3'>
+            <div className='flex min-w-0 flex-col'>
+              <span className='truncate font-medium'>{item.title}</span>
             </div>
-            <div className='flex items-center gap-3'>
+            <div className='flex items-center justify-between gap-3 sm:justify-end'>
               <span className='tabular-nums'>{formatCurrency(item.amount)}</span>
+              <Button size='sm' variant='ghost' aria-label={`Edit ${item.title}`} onClick={() => onEdit(item)} disabled={isPending}>
+                <Pencil className='h-4 w-4' />
+              </Button>
               <Button size='sm' variant='ghost' aria-label={`Delete ${item.title}`} onClick={() => onDelete(item.id, item.title)} disabled={isPending}>
                 <Trash2 className='h-4 w-4 text-red-600' />
               </Button>

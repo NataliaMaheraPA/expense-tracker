@@ -31,7 +31,7 @@ export default function NewExpenseForm() {
   }
 
   return (
-    <div className='w-1/3'>
+    <div className='w-full sm:w-1/3'>
       <h3 className='text-xl font-bold'>Add new</h3>
       <form className='mt-3 flex flex-col gap-3' onSubmit={handleSubmit(onSubmit)}>
         <FormInput<ExpenseFormValues>
@@ -40,7 +40,7 @@ export default function NewExpenseForm() {
           type='text'
           label='Title'
           placeholder='Title'
-          className='flex flex-col'
+          className='flex flex-col rounded-md'
           inputClassName='border border-zinc-300 p-2'
         />
 
@@ -50,14 +50,14 @@ export default function NewExpenseForm() {
           type='number'
           label='Amount'
           placeholder='Amount'
-          className='flex flex-col'
+          className='flex flex-col rounded-md'
           inputClassName='border border-zinc-300 p-2'
         />
 
         <button
           type='submit'
           disabled={isSubmitting}
-          className='bg-purple-600 p-2 text-white'
+          className='bg-purple-600 p-2 text-white rounded-md'
         >
           {isSubmitting ? 'Saving...' : 'Add'}
         </button>

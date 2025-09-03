@@ -8,15 +8,7 @@ export default function Footer() {
           Next shadcn &copy;{new Date().getFullYear()}. All rights reserved.
         </p>
         <p className='text-xs'>
-          Developed by{' '}
-          <Link
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-primary transition-colors hover:text-accent-foreground'
-            href='https://www.hamedbahram.io/'
-          >
-            Studio H
-          </Link>
+          Developed by <span className='text-primary transition-colors hover:text-accent-foreground'>NM_nice_Dev</span>
         </p>
       </div>
     </footer>

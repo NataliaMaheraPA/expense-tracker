@@ -4,6 +4,7 @@ import ExpenseList from "@/components/expense-list"
 import MonthlyLineChart from "@/components/monthly-line-chart"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import ExpenseEditSheet from "@/components/expense-edit-sheet"
 
 export default async function Home() {
   const [expenses, monthly] = await Promise.all([getExpenses(), getMonthlyTotals()])
@@ -14,7 +15,7 @@ export default async function Home() {
         <h1 className='text-3xl font-bold'>Expense Tracker</h1>
         <h2 className='text-zinc-500'>Using Neon: Serverless Postgres</h2>
 
-        <div className='mt-8 flex items-center justify-between gap-10'>
+        <div className='mt-8 flex flex-col-reverse gap-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10'>
           <div className='grow'>
             <h3 className='text-xl font-bold'>Items</h3>
             <div className='mt-4'>
@@ -37,6 +38,8 @@ export default async function Home() {
             </CardContent>
           </Card>
         </div>
+
+        <ExpenseEditSheet />
       </div>
     </section>
   )

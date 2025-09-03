@@ -30,3 +30,11 @@ export async function getMonthlyTotals(): Promise<Array<{ month: string; total: 
   `
   return rows
 }
+
+export async function updateExpense(id: string, data: { title: string; amount: number }): Promise<Expense> {
+  const updated = await prisma.expense.update({
+    where: { id },
+    data
+  })
+  return updated
+}
