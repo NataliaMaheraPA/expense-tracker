@@ -1,6 +1,7 @@
 'use client'
 
 import { ThemeProvider, useTheme } from 'next-themes'
+import { CurrencyProvider } from '@/components/currency-provider'
 import { Toaster } from '@/components/ui/sonner'
 
 export default function Providers({ children }: { children: React.ReactNode }) {
@@ -11,8 +12,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       defaultTheme='dark'
       disableTransitionOnChange
     >
-      {children}
-      <ToasterProvider />
+      <CurrencyProvider>
+        {children}
+        <ToasterProvider />
+      </CurrencyProvider>
     </ThemeProvider>
   )
 }

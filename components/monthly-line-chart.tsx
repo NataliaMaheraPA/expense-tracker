@@ -11,7 +11,8 @@ import {
   CartesianGrid
 } from 'recharts'
 import { Button } from '@/components/ui/button'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrencyWith } from '@/lib/utils'
+import { useCurrency } from '@/components/currency-provider'
 
 type Props = {
   data: Array<{ month: string; total: number }>
@@ -26,6 +27,7 @@ function formatMonthLabel(yyyyDashMm: string) {
 
 export default function MonthlyLineChart({ data }: Props) {
   const [months, setMonths] = useState<3 | 6 | 12>(12)
+  const { currency } = useCurrency()
 
   const sliced = useMemo(() => {
     if (!data?.length) return [] as Props['data']
@@ -53,9 +55,9 @@ export default function MonthlyLineChart({ data }: Props) {
           <LineChart data={sliced} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
             <CartesianGrid strokeDasharray='3 3' className='stroke-zinc-200 dark:stroke-zinc-800' />
             <XAxis dataKey='month' tickLine={false} axisLine={false} tickFormatter={formatMonthLabel} />
-            <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrency(Number(v)).replace('$', '')} />
+            <YAxis tickLine={false} axisLine={false} tickFormatter={(v) => formatCurrencyWith(Number(v), currency)} />
             <Tooltip
-              formatter={(value) => formatCurrency(Number(value))}
+              formatter={(value) => formatCurrencyWith(Number(value), currency)}
               labelFormatter={(label) => formatMonthLabel(String(label))}
             />
             <Line type='monotone' dataKey='total' stroke='#22c55e' strokeWidth={2} dot={false} />

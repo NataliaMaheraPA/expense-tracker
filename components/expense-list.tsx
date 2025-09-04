@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Trash2, Pencil } from 'lucide-react'
 import { removeExpense } from '@/app/actions/expenses'
-import { formatCurrency } from '@/lib/utils'
+import { formatCurrencyWith } from '@/lib/utils'
+import { useCurrency } from '@/components/currency-provider'
 import { Button } from '@/components/ui/button'
 
 type ExpenseItem = { id: string; title: string; amount: number }
 type Props = { items: ExpenseItem[] }
 
 export default function ExpenseList({ items }: Props) {
+  const { currency } = useCurrency()
   const [optimistic, setOptimistic] = useOptimistic(items, (state, id: string) => state.filter(i => i.id !== id))
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
@@ -45,7 +47,7 @@ export default function ExpenseList({ items }: Props) {
     <div className='flex flex-col gap-3'>
       <div className='flex flex-col gap-1 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between'>
         <span>Count: {optimistic.length}</span>
-        <span>Total: {formatCurrency(total)}</span>
+        <span>Total: {formatCurrencyWith(total, currency)}</span>
       </div>
       <ul className='divide-y rounded-md border'>
         {optimistic.map(item => (
@@ -54,7 +56,7 @@ export default function ExpenseList({ items }: Props) {
               <span className='truncate font-medium'>{item.title}</span>
             </div>
             <div className='flex items-center justify-between gap-3 sm:justify-end'>
-              <span className='tabular-nums'>{formatCurrency(item.amount)}</span>
+              <span className='tabular-nums'>{formatCurrencyWith(item.amount, currency)}</span>
               <Button size='sm' variant='ghost' aria-label={`Edit ${item.title}`} onClick={() => onEdit(item)} disabled={isPending}>
                 <Pencil className='h-4 w-4' />
               </Button>

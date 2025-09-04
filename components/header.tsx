@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { ThemeToggle } from '@/components/theme-toggle'
+import CurrencySelect from '@/components/currency-select'
 
 import {
   Sheet,
@@ -38,6 +39,7 @@ export default function Header() {
 
         <div className='flex items-center justify-between gap-6'>
           <ThemeToggle />
+          <CurrencySelect />
         </div>
       </nav>
     </header>
