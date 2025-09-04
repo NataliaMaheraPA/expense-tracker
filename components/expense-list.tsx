@@ -6,10 +6,10 @@ import { toast } from 'sonner'
 import { Trash2, Pencil } from 'lucide-react'
 import { removeExpense } from '@/app/actions/expenses'
 import { formatCurrency } from '@/lib/utils'
-import type { Expense } from '@prisma/client'
 import { Button } from '@/components/ui/button'
 
-type Props = { items: Expense[] }
+type ExpenseItem = { id: string; title: string; amount: number }
+type Props = { items: ExpenseItem[] }
 
 export default function ExpenseList({ items }: Props) {
   const [optimistic, setOptimistic] = useOptimistic(items, (state, id: string) => state.filter(i => i.id !== id))
@@ -36,7 +36,7 @@ export default function ExpenseList({ items }: Props) {
     })
   }
 
-  function onEdit(item: Expense) {
+  function onEdit(item: ExpenseItem) {
     const event = new CustomEvent('open-expense-edit', { detail: item })
     window.dispatchEvent(event)
   }
