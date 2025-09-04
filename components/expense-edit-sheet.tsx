@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import type { Expense } from '@prisma/client'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { expenseSchema, type ExpenseFormValues } from '@/types/schema'
@@ -11,9 +10,11 @@ import { Button } from '@/components/ui/button'
 import { submitExpenseUpdate } from '@/app/actions/expenses'
 import { toast } from 'sonner'
 
+type EditingExpense = { id: string; title: string; amount: number }
+
 export default function ExpenseEditSheet() {
   const [open, setOpen] = useState(false)
-  const [editing, setEditing] = useState<Expense | null>(null)
+  const [editing, setEditing] = useState<EditingExpense | null>(null)
 
   const { control, handleSubmit, reset, setError, formState: { isSubmitting } } = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseSchema),
@@ -22,9 +23,9 @@ export default function ExpenseEditSheet() {
 
   useEffect(() => {
     function onOpen(e: Event) {
-      const detail = (e as CustomEvent<Expense>).detail
+      const detail = (e as CustomEvent<EditingExpense>).detail
       setEditing(detail)
-      reset({ title: detail.title, amount: detail.amount as unknown as string })
+      reset({ title: detail.title, amount: String(detail.amount) })
       setOpen(true)
     }
     window.addEventListener('open-expense-edit', onOpen as EventListener)
