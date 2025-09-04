@@ -12,9 +12,9 @@ const prismaClientSingleton = () => {
   return prisma
 }
 
-declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>
-} & typeof global
+declare const globalThis: typeof global & {
+  prismaGlobal?: ReturnType<typeof prismaClientSingleton>
+}
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
