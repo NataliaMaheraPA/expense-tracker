@@ -1,9 +1,9 @@
 'use client'
 
 import { useId } from 'react'
-import { Controller, type Control, type FieldPath } from 'react-hook-form'
+import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form'
 
-type FormInputProps<TFieldValues extends Record<string, any>> = {
+type FormInputProps<TFieldValues extends FieldValues> = {
   name: FieldPath<TFieldValues>
   control: Control<TFieldValues>
   type: string
@@ -15,7 +15,7 @@ type FormInputProps<TFieldValues extends Record<string, any>> = {
   externalError?: string | undefined
 }
 
-export function FormInput<TFieldValues extends Record<string, any>>({
+export function FormInput<TFieldValues extends FieldValues>({
   name,
   control,
   type,
